@@ -146,14 +146,14 @@
     draw();
   });
 
-  /* ---------- Flowing sea on the section 1 photo (WebGL) ----------
-     Re-draws the photo with the sea below the horizon drifting sideways
-     (a flow map: two phase-shifted copies slide and cross-fade, so the
-     drift never stops and never samples far from its own spot) plus a
-     ripple. The riders and the sun's reflection stay put, and water never
-     samples rider pixels. Without WebGL the CSS background shows instead. */
-  const DRIFT_CYCLE = 4.5;                // seconds per flow-map cycle
-  const RIPPLE_LOOP = 20 * Math.PI;       // all ripple frequencies are multiples of 0.1
+  /* ---------- Live sea on the section 1 photo (WebGL) ----------
+     Re-draws the photo with one continuous wave field below the horizon:
+     four swells of different sizes and directions roll toward the viewer
+     (spaced by perspective, so they bunch up near the horizon) with a fine
+     chop on top, and their strength drifts slowly up and down. The two
+     riders ride the same swell: each bobs and tilts as one rigid piece.
+     Without WebGL the CSS background shows instead. */
+  const SEA_LOOP = 3600;                  // seconds; keeps shader time precise
   $$('[data-water]').forEach((canvas) => {
     if (reduceMotion) return;
     const gl = canvas.getContext('webgl', { premultipliedAlpha: false, antialias: false });
@@ -169,40 +169,72 @@
       #endif
       uniform sampler2D tex;
       uniform vec2 res, img, pos;
-      uniform float t, phase;
-      // jet-ski riders in image uv (x, y from top) and their half sizes
-      const vec2 R1 = vec2(.355, .655), R2 = vec2(.64, .655), RS = vec2(.13, .2);
+      uniform float t;
       const float HORIZON = .565;
-      float rider(vec2 uv, vec2 c) { return smoothstep(.8, 1.15, length((uv - c) / RS)); }
-      float riders(vec2 uv) { return rider(uv, R1) * rider(uv, R2); }
+      // jet-ski riders in image uv (x, y from top), their half sizes, and where they sit on the water
+      const vec2 R1 = vec2(.355, .655), R2 = vec2(.64, .655), RS = vec2(.11, .18);
+      const vec2 P1 = vec2(.355, .76), P2 = vec2(.64, .76);
+
+      float rider(vec2 uv, vec2 c) { return 1.0 - smoothstep(.85, 1.1, length((uv - c) / RS)); }
+
+      // sea surface height at a screen point; slope gets the (sideways, toward-viewer) gradient
+      float sea(vec2 uv, out vec2 slope) {
+        float z = 1.0 / (max(uv.y - HORIZON, 0.0) + .035);          // distance from the camera
+        vec2 w = vec2((uv.x - .5) * z * 1.6, z);                    // world position on the water
+        float h = 0.0; slope = vec2(0.0);
+        // direction (sideways, toward), wavenumber, speed, height
+        vec4 dir[4]; vec3 k[4];
+        dir[0] = vec4(0.0, 1.0, 0, 0);   k[0] = vec3(.9, 1.15, 1.0);
+        dir[1] = vec4(.36, .93, 0, 0);   k[1] = vec3(1.45, 1.55, .55);
+        dir[2] = vec4(-.42, .91, 0, 0);  k[2] = vec3(2.3, 1.95, .34);
+        dir[3] = vec4(.16, .99, 0, 0);   k[3] = vec3(3.4, 2.5, .2);
+        for (int i = 0; i < 4; i++) {
+          float ph = k[i].x * dot(dir[i].xy, w) + k[i].y * t;      // + t: crests move to smaller z, toward us
+          h += k[i].z * sin(ph);
+          slope += k[i].z * k[i].x * cos(ph) * dir[i].xy;
+        }
+        return h;
+      }
+
+      vec2 riderSample(vec2 uv, vec2 pivot, float swell) {
+        vec2 sl; float h = sea(pivot, sl);
+        float tilt = sl.x * .012 * swell;                          // roll with the sideways slope
+        vec2 q = uv - pivot;
+        q = vec2(cos(tilt) * q.x - sin(tilt) * q.y * (img.y / img.x),
+                 sin(tilt) * q.x * (img.x / img.y) + cos(tilt) * q.y);
+        return pivot + q - vec2(0.0, h * .0045 * swell);          // bob up and down
+      }
+
       void main() {
         vec2 frag = vec2(gl_FragCoord.x, res.y - gl_FragCoord.y);
-        float s = max(res.x / img.x, res.y / img.y);           // background-size: cover
+        float s = max(res.x / img.x, res.y / img.y);                // background-size: cover
         vec2 size = img * s;
         vec2 uv = (frag - (res - size) * pos) / size;
-        float k = clamp((uv.y - HORIZON) / (1.0 - HORIZON), 0.0, 1.0);   // 0 at horizon, 1 at bottom
-        float sea = smoothstep(HORIZON, HORIZON + .03, uv.y) * riders(uv);
+
+        // strength drifts slowly, so the sea is sometimes calmer, sometimes rougher
+        float swell = .85 + .2 * sin(t * .23) * sin(t * .11 + 1.3) + .15 * sin(t * .071 + .4);
+
+        float water = smoothstep(HORIZON, HORIZON + .02, uv.y);
+        float depth = max(uv.y - HORIZON, 0.0);                      // perspective: nearer water moves more
+        vec2 sl; float h = sea(uv, sl);
+        vec2 d = vec2(sl.x * .006, h * .028) * depth * swell;
+        float k = clamp(depth / (1.0 - HORIZON), 0.0, 1.0);
+        float f = mix(300.0, 50.0, k);                               // fine chop
+        vec2 chop = vec2(sin(uv.y * f * .7 + t * 1.9 + sin(uv.x * 23.0 + t * .6) * 1.6),
+                         sin(uv.y * f + t * 2.4 + cos(uv.x * 17.0 - t * .8) * 2.0)) * mix(.0005, .0035, k * k);
+        vec2 seaUv = uv + (d + chop) * water;
+
+        float m1 = rider(uv, R1), m2 = rider(uv, R2);
+        vec2 at = seaUv;
+        at = mix(at, riderSample(uv, P1, swell), m1);
+        at = mix(at, riderSample(uv, P2, swell), m2);
+        vec4 c = texture2D(tex, clamp(at, .001, .999));
+
+        // light catching the swell faces, plus a glint on the sun path
+        float lit = max(0.0, -sl.y) * water * (1.0 - max(m1, m2)) * k;
+        c.rgb += lit * .035 * swell * vec3(1.0, .82, .62);
         float sunPath = exp(-pow((uv.x - .505) / .045, 2.0));
-        float flow = sea * (1.0 - .9 * sunPath);
-
-        float freq = mix(320.0, 45.0, k);                       // tighter ripples far away
-        vec2 d;
-        d.x = sin(uv.y * freq * .7 - t * 1.7 + sin(uv.x * 23.0 + t * .6) * 1.6);
-        d.y = sin(uv.y * freq - t * 2.2 + cos(uv.x * 17.0 - t * .8) * 2.0);
-        vec2 base = uv + d * mix(.0006, .005, k * k) * sea;
-
-        vec4 still = texture2D(tex, clamp(base, .001, .999));
-        // drift distance per cycle grows toward the viewer (~4% of the width at the horizon, 16% at the bottom)
-        float reach = mix(.04, .16, k);
-        float p0 = phase, p1 = fract(phase + .5);
-        // abs() mirrors samples that drift past the photo's left edge instead of leaving a seam
-        vec2 a = vec2(abs(base.x - p0 * reach), base.y), b = vec2(abs(base.x - p1 * reach), base.y);
-        vec4 ca = mix(still, texture2D(tex, clamp(a, .001, .999)), riders(a));
-        vec4 cb = mix(still, texture2D(tex, clamp(b, .001, .999)), riders(b));
-        float wa = 1.0 - abs(2.0 * p0 - 1.0);                    // triangle weights, wa + wb = 1
-        vec4 moving = ca * wa + cb * (1.0 - wa);
-        vec4 c = mix(still, moving, flow);
-        c.rgb += sunPath * sea * max(0.0, d.y) * .12 * vec3(1.0, .75, .45);   // glint on the sun path
+        c.rgb += sunPath * water * max(0.0, chop.y / mix(.0005, .0035, k * k)) * .1 * vec3(1.0, .75, .45);
         gl_FragColor = c;
       }`;
     const sh = (type, src) => { const o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o); return o; };
@@ -245,9 +277,7 @@
       const t0 = performance.now();
       const frame = (now) => {
         if (visible) {
-          const sec = (now - t0) / 1000;
-          gl.uniform1f(u('t'), sec % RIPPLE_LOOP);
-          gl.uniform1f(u('phase'), (sec % DRIFT_CYCLE) / DRIFT_CYCLE);
+          gl.uniform1f(u('t'), ((now - t0) / 1000) % SEA_LOOP);
           gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
         }
         requestAnimationFrame(frame);

@@ -450,16 +450,20 @@ button { font: inherit; color: inherit; cursor: pointer; }
   /* photo box: 16:9, capped so the countdown still fits on a laptop screen */
   --img-h: max(440px, min(56.25vw, 100vh - 230px));
   --img-y: .5;                 /* background-position-y of the photo */
+  /* --f is the 11.11 size; the whole title block is about 1.95 × --f tall */
+  --f: max(72px, min(12.5vw, 205px));
+  /* push the photo down just enough that the title ends above the riders' heads (~50% down the photo) */
+  --shift: max(0px, 72px + var(--f) * 1.95 + 22px - var(--img-h) * .5);
   position: relative; isolation: isolate; overflow: hidden;
   /* the bottom block starts where the jet skis end (80% down the photo) */
-  padding: calc((var(--img-h) - 56.25vw) * var(--img-y) + 45vw) 0 36px;
+  padding: calc(var(--shift) + (var(--img-h) - 56.25vw) * var(--img-y) + 45vw) 0 36px;
 }
 .s1__bg {
-  position: absolute; inset: 0 0 auto; height: var(--img-h); z-index: -3;
+  position: absolute; inset: var(--shift) 0 auto; height: var(--img-h); z-index: -3;
   background-size: cover; background-position: 50% 50%;
   filter: saturate(1.12) contrast(1.06) brightness(.9);
-  -webkit-mask-image: linear-gradient(180deg, #000 82%, transparent);
-          mask-image: linear-gradient(180deg, #000 82%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 82%, transparent);
+          mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 82%, transparent);
   animation: kenburns 30s ease-in-out infinite alternate;
   transform-origin: 50% 60%;
   will-change: transform;
@@ -473,13 +477,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
     linear-gradient(rgba(14,36,78,.26), rgba(14,36,78,.26));
 }
 
-/* centered 14th anniversary / 11.11 / motto.
-   --f is the 11.11 size: the old 10.5vw, capped so the block ends above the riders' heads */
-.s1__top { position: absolute; top: 74px; left: 0; right: 0; display: flex; justify-content: center; }
-.s1 { --f: max(64px, min(10.5vw, 170px, (var(--img-h) * .5 - 94px) / 1.84)); }
+/* centered 14th anniversary / 11.11 / motto (sized by --f on .s1) */
+.s1__top { position: absolute; top: 72px; left: 0; right: 0; display: flex; justify-content: center; }
 .s1__brand { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .s1__anniv {
-  width: calc(var(--f) * 2.2); height: auto; margin-bottom: calc(var(--f) * -.02);
+  width: calc(var(--f) * 2.6); height: auto; margin-bottom: calc(var(--f) * -.02);
   filter: drop-shadow(0 6px 14px rgba(0,0,0,.5));
 }
 
@@ -519,7 +521,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @keyframes bob { 50% { transform: translateY(-6px) rotate(-3deg); } }
 
 .s1__motto {
-  margin: 14px 0 0; font-family: "Noto Serif SC", serif; font-weight: 700;
+  margin: 8px 0 0; font-family: "Noto Serif SC", serif; font-weight: 700;
   font-size: max(20px, var(--f) * .245); letter-spacing: .06em;
   text-shadow: 0 2px 14px rgba(0,0,0,.7);
 }
@@ -598,7 +600,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       linear-gradient(180deg, rgba(5,11,24,.5) 0%, rgba(5,11,24,.2) 36%, transparent 48%, rgba(5,11,24,.55) 88%),
       linear-gradient(rgba(14,36,78,.25), rgba(14,36,78,.25));
   }
-  .s1 { --f: min(25vw, 140px); }
+  .s1 { --f: min(24.5vw, 160px); }       /* 11.11 + its waves must fit the screen width */
+  .s1__anniv { width: min(86vw, var(--f) * 3); }
   .s1__top { top: 76px; }
   .s1__motto { font-size: 26px; margin-top: 8px; }
   .s1__headline { font-size: min(13vw, 72px); }
