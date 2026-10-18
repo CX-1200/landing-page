@@ -79,7 +79,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .nav.is-scrolled { background: rgba(8, 16, 29, .82); backdrop-filter: blur(14px); border-color: var(--line); }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
-.logo { display: inline-flex; align-items: center; gap: 12px; font-weight: 500; letter-spacing: .22em; font-size: 14px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; }
+.logo img { flex: none; filter: drop-shadow(0 2px 8px rgba(0,0,0,.35)); }
+.logo__word { display: flex; flex-direction: column; line-height: 1.05; }
+.logo__word b { font-weight: 800; font-size: 15px; letter-spacing: .06em; }
+.logo__word small { font-size: 9.5px; font-weight: 600; letter-spacing: .42em; color: var(--muted); margin-top: 3px; }
 .nav__links { display: flex; align-items: center; gap: 34px; font-size: 12px; letter-spacing: .14em; }
 .nav__links a:not(.btn) { opacity: .85; position: relative; padding: 6px 0; }
 .nav__links a:not(.btn)::after {
@@ -230,7 +234,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Footer */
 .footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--muted); font-size: 12px; }
 .footer__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.footer .logo { color: var(--text); font-size: 12px; }
+.footer .logo { color: var(--text); }
+.logo--footer .logo__word b { font-size: 13px; }
+.logo--footer .logo__word small { font-family: "Caveat", cursive; font-size: 15px; font-weight: 500; letter-spacing: .02em; text-transform: none; margin-top: 2px; }
 .footer p { margin: 0; }
 .footer__link { color: var(--orange-2); }
 
@@ -647,6 +653,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 900px) {
   .s3 { --h: 560px; }
 }
+
+/* ==========================================================
+   SECTION 4 · 11.11 OFFER
+   ========================================================== */
+.s4 { padding: 40px 0 10px; }
+.s4__frame { width: min(1600px, 100%); margin: 0 auto; }
+.s4__frame img { width: 100%; height: auto; }
 
 /* ==========================================================
    Responsive

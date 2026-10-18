@@ -27,7 +27,9 @@
 
 ## 上线前要替换的内容
 
-- `assets/hero-sunset.jpg` 是首屏（Section 1）的高清背景图。其他 `assets/*.jpg` 仍是从设计稿截出来、去掉文字的低分辨率占位图，正式上线请换成原始高清图（文件名保持不变即可）。
+- 品牌 Logo：`assets/ts-mark.png`（导航和页脚用的圆形 A+ 标志）、`assets/favicon.png`、`assets/apple-touch-icon.png`，都是从 `assets/topscholar-logo.jpg`（正式 Logo 原图）裁出来的。
+- 高清素材：`assets/hero-sunset.jpg`（Section 1 背景）、`assets/anniv-14th.png`（14TH ANNIVERSARY 标题）、`assets/students-wall.jpg` 与 `assets/flag-my.png`（Section 3，从 100,000+ 原图拆出来的学生墙和国旗）、`assets/promo-1111.jpg`（Section 4）。
+- 低清占位图：`assets/film-face.jpg`（影片缩略图）和商品页的其他图，正式上线请换成原始高清图（文件名保持不变即可）。
 - 倒数时间：在 HTML 里搜索 `data-countdown`。
 - 表单目前只是 Demo（号码只存在浏览器的 localStorage）。正式版可在 `js/main.js` 里标注 `Demo only` 的地方接入 Google Sheet、Formspree 或你的 CRM。
 - 品牌影片：把 `#filmModal` 里的 `.film-teaser` 换成 YouTube / Vimeo 的 iframe。
