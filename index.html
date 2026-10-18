@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Top Scholar · 14周年 11.11 大优惠</title>
-  <meta name="description" content="Top Scholar 十四周年庆 11.11 大优惠 —— 加入 Waiting List，第一时间收到独家优惠。">
+  <meta name="description" content="Top Scholar 十四周年庆 11.11 大优惠 —— 加入 Priority List，正式开卖前优先收到活动消息与优惠公布。">
   <meta name="theme-color" content="#0a1220">
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,8 +24,8 @@
       <nav class="nav__links" id="navLinks">
         <a href="#top">HOME</a>
         <a href="#story">OUR STORY</a>
-        <a href="order.html">11.11</a>
-        <a href="#waitlist" class="btn btn--ghost btn--sm">JOIN WAITING LIST</a>
+        <a href="#section-3">11.11</a><!-- TODO: point at section 3/4 once built -->
+        <a href="#waitlist" class="btn btn--ghost btn--sm">JOIN PRIORITY LIST</a>
       </nav>
       <button class="nav__toggle" id="navToggle" aria-label="打开菜单"><span></span><span></span><span></span></button>
     </div>
@@ -33,36 +33,32 @@
 
   <main id="top">
     <!-- ============ SECTION 1 · HERO ============ -->
-    <section class="s1" aria-labelledby="s1Title">
-      <div class="s1__bg" style="background-image:url('assets/hero-sunset.jpg')" data-parallax></div>
-      <div class="s1__shade"></div>
+    <section class="s1" aria-label="14周年 11.11 年度大优惠">
+      <div class="s1__bg" style="background-image:url('assets/hero-sunset.jpg')" data-parallax>
+        <canvas class="s1__water" data-water="assets/hero-sunset.jpg" aria-hidden="true"></canvas>
+        <div class="s1__shade"></div>
+      </div>
       <canvas class="hero__spray" data-spray></canvas>
 
       <div class="container s1__top">
-        <!-- left: 14th anniversary + 11.11 -->
         <div class="s1__brand reveal">
-          <p class="s1__anniv"><b>14</b><span><sup>TH</sup>ANNIVERSARY</span></p>
-          <h1 class="s1__1111" id="s1Title">
+          <img class="s1__anniv" src="assets/anniv-14th.png" width="900" height="229" alt="14th Anniversary">
+          <h1 class="s1__1111">
             <svg class="s1__wave s1__wave--l" viewBox="0 0 120 80" aria-hidden="true"><path d="M112 70C70 78 18 66 10 38 4 16 26 4 44 12c14 6 14 26 0 26-9 0-10-10-4-12"/><path d="M96 58C64 60 34 52 30 34"/></svg>
             <span class="s1__num" data-text="11.11">11.11</span>
             <svg class="s1__wave s1__wave--r" viewBox="0 0 120 80" aria-hidden="true"><path d="M8 70c42 8 94-4 102-32 6-22-16-34-34-26-14 6-14 26 0 26 9 0 10-10 4-12"/><path d="M24 58c32 2 62-6 66-24"/></svg>
           </h1>
           <p class="s1__motto">学海无涯，终生学习</p>
         </div>
-
-        <!-- right: headline + copy -->
-        <div class="s1__copy reveal reveal--delay">
-          <h2 class="s1__headline">
-            <span class="s1__h1">一年一次。</span>
-            <span class="s1__h2">年度大优惠。</span>
-          </h2>
-          <span class="s1__rule" aria-hidden="true"></span>
-          <p class="s1__sub">Top Scholar 年度最大活动。<br>为孩子的下一学年，提前做好准备。</p>
-        </div>
       </div>
 
-      <!-- bottom: countdown + CTA -->
+      <!-- bottom: headline, then countdown -->
       <div class="container s1__bottom reveal">
+        <h2 class="s1__headline">
+          <span class="s1__h1">一年一次。</span><span class="s1__h2">年度大优惠。</span>
+        </h2>
+        <span class="s1__rule" aria-hidden="true"></span>
+        <p class="s1__sub">Top Scholar 年度最大活动。<span class="s1__line">为孩子的下一学年，提前做好准备。</span></p>
         <div class="s1__count">
           <p class="s1__count-title">距离正式开卖还有</p>
           <div class="s1__tiles" data-countdown="2026-11-11T00:00:00+08:00" data-done="🔥 11.11 已正式开卖！">
@@ -72,35 +68,22 @@
             <div class="s1__tile"><span data-unit="s">00</span><small>SECONDS</small></div>
           </div>
         </div>
-        <div class="s1__cta">
-          <a href="#waitlist" class="s1__btn" data-focus="#wlPhone">
-            加入 Priority List，抢先购买
-            <span class="s1__btn-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
-          <p class="s1__note">（正式开卖前，优先收到活动消息与配套公布。）</p>
-        </div>
       </div>
     </section>
 
-    <!-- ============ WAITING LIST ============ -->
+    <!-- ============ PRIORITY LIST ============ -->
     <section class="waitlist" id="waitlist">
       <div class="container">
-        <h2 class="section-title reveal">加入 <span class="en">WAITING LIST</span></h2>
-        <p class="section-sub reveal">第一时间收到独家优惠 + 提前解锁福利</p>
+        <h2 class="section-title reveal">加入 <span class="en">PRIORITY LIST</span></h2>
+        <p class="section-sub reveal">正式开卖前，优先收到活动消息与优惠公布</p>
 
         <form class="wl-form reveal" id="waitlistForm" novalidate>
           <label class="sr-only" for="wlPhone">WhatsApp / 电话号码</label>
           <input id="wlPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="输入你的 WhatsApp / 电话号码" required>
           <button class="btn btn--primary" type="submit">我要抢先知道 <span class="btn__arrow">→</span></button>
         </form>
-        <p class="wl-note" id="wlCount">已有 <b data-countup="3826">0</b> 位家长加入 Waiting List</p>
+        <p class="wl-note" id="wlCount">已有 <b data-countup="3826">0</b> 位家长加入 Priority List</p>
 
-        <ul class="perks">
-          <li class="reveal"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>第一时间收到优惠</span></li>
-          <li class="reveal"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg><span>独家预购福利</span></li>
-          <li class="reveal"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6M2 9h20"/></svg><span>限时加码惊喜</span></li>
-          <li class="reveal"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>优先锁定名额</span></li>
-        </ul>
       </div>
     </section>
 
@@ -157,8 +140,8 @@
         <div>
           <p class="hand-caps">COMING SOON</p>
           <h3 class="brush-cn brush-cn--film">品牌影片 11.11 上线</h3>
-          <p class="muted">加入 Waiting List，影片上线第一时间通知你。</p>
-          <a href="#waitlist" class="btn btn--primary btn--sm" data-close>加入 Waiting List →</a>
+          <p class="muted">加入 Priority List，影片上线第一时间通知你。</p>
+          <a href="#waitlist" class="btn btn--primary btn--sm" data-close>加入 Priority List →</a>
         </div>
       </div>
     </div>
