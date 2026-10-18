@@ -9,7 +9,7 @@
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Cinzel:wght@600;700&family=Mrs+Saint+Delafield&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Oswald:wght@400;500&family=Permanent+Marker&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Cinzel:wght@600;700&family=Mrs+Saint+Delafield&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Oswald:wght@400;500&family=Permanent+Marker&family=Source+Serif+4:wght@400;800&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="page-landing">
@@ -92,7 +92,6 @@
       <div class="container">
         <div class="film__frame reveal">
           <div class="film__face" style="background-image:url('assets/film-face.jpg')"></div>
-          <div class="film__ride" style="background-image:url('assets/film-jetski.jpg')"></div>
           <div class="film__shade"></div>
 
           <div class="film__content">
@@ -104,21 +103,29 @@
             <button class="btn btn--ghost btn--sm" data-open="filmModal">先看看我们的故事 →</button>
           </div>
 
-          <div class="film__quote hand-caps">
-            <span>MORE THAN GRADES</span>
-            <span>A BRIGHTER TOMORROW</span>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ STATS ============ -->
-    <section class="stats">
-      <div class="container stats__row">
-        <div class="stat reveal"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg><div><b data-countup="14">0</b><small>年教育深耕</small></div></div>
-        <div class="stat reveal"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><circle cx="5.5" cy="10" r="2.4"/><circle cx="18.5" cy="10" r="2.4"/><path d="M6 20a6 6 0 0 1 12 0M1.5 19a4 4 0 0 1 4.5-4M22.5 19a4 4 0 0 0-4.5-4"/></svg><div><b><span data-countup="100000" data-format="comma">0</span>+</b><small>学生受益</small></div></div>
-        <div class="stat reveal"><svg viewBox="0 0 24 24"><path d="M12 2 9.5 4.5 6 4l-.5 3.5L3 10l2 3-1 3.5 3.5 1L9 21l3-1.5L15 21l1.5-3.5 3.5-1-1-3.5 2-3-2.5-2.5L18 4l-3.5.5Z"/><circle cx="12" cy="11" r="3.5"/></svg><div><span class="stat__txt">荣誉与认可</span></div></div>
-        <div class="stat reveal"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><div><span class="stat__txt">无数改变的故事</span></div></div>
+    <!-- ============ SECTION 3 · 100,000+ STUDENTS ============ -->
+    <section class="s3" id="students" aria-label="100,000+ students and still counting">
+      <div class="s3__wall" aria-hidden="true">
+        <div class="s3__track">
+          <img src="assets/students-wall.jpg" width="1400" height="900" alt="">
+          <img src="assets/students-wall.jpg" width="1400" height="900" alt="">
+          <img src="assets/students-wall.jpg" width="1400" height="900" alt="">
+        </div>
+      </div>
+      <canvas class="s3__flag" data-flag="assets/flag-my.png" aria-hidden="true"></canvas>
+      <div class="s3__shade" aria-hidden="true"></div>
+
+      <div class="s3__text reveal">
+        <p class="s3__num">
+          <span class="s3__ghost" aria-hidden="true">100,000+</span>
+          <span class="s3__live"><span data-countup="100000" data-format="comma" data-duration="2600">0</span>+</span>
+        </p>
+        <p class="s3__word">Student</p>
+        <p class="s3__sub">and still counting</p>
       </div>
     </section>
   </main>

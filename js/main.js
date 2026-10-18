@@ -68,7 +68,7 @@
     const end = +el.dataset.countup;
     const fmt = (n) => (el.dataset.format === 'comma' ? n.toLocaleString('en-US') : String(n));
     if (reduceMotion) { el.textContent = fmt(end); return; }
-    const t0 = performance.now(), dur = 1800;
+    const t0 = performance.now(), dur = +el.dataset.duration || 1800;
     const step = (t) => {
       const p = Math.min(1, (t - t0) / dur);
       el.textContent = fmt(Math.round(end * (1 - Math.pow(1 - p, 3))));
@@ -285,6 +285,50 @@
       requestAnimationFrame(frame);
     };
     image.src = canvas.dataset.water;
+  });
+
+  /* ---------- Waving flag (section 3) ----------
+     Draws the flag cut-out in thin vertical slices, each nudged up or down
+     by a travelling sine wave that grows toward the free (right) end, then
+     shades the slices so the folds catch the light. */
+  $$('[data-flag]').forEach((canvas) => {
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    let w = 0, h = 0;                                     // canvas size in device pixels
+    const resize = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      w = canvas.width = Math.round(canvas.clientWidth * dpr);
+      h = canvas.height = Math.round(canvas.clientHeight * dpr);
+    };
+    const draw = (t) => {
+      ctx.clearRect(0, 0, w, h);
+      // whole-pixel slices that neither overlap nor leave gaps, so the soft edges stay clean
+      const amp = h * 0.035, slice = 3, sx = img.naturalWidth / w;
+      for (let x = 0; x < w; x += slice) {
+        const sw = Math.min(slice, w - x);
+        const free = Math.pow(x / w, 0.8);                 // the hoist side barely moves
+        const ph = x / w * 9 - t * 2.2;
+        const dy = Math.round(-amp * free * (1 + Math.sin(ph)) / 2);   // never drops below the top edge
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(img, x * sx, 0, sw * sx, img.naturalHeight, x, dy, sw, h);
+        const light = Math.cos(ph) * free;
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.fillStyle = light > 0 ? `rgba(255,255,255,${light * 0.07})` : `rgba(0,0,0,${-light * 0.16})`;
+        ctx.fillRect(x, 0, sw, h);
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    };
+    img.onload = () => {
+      resize();
+      addEventListener('resize', () => { resize(); if (reduceMotion) draw(0); });
+      if (reduceMotion) { draw(0); return; }
+      let visible = true;
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(canvas);
+      const t0 = performance.now();
+      const loop = (now) => { if (visible) draw((now - t0) / 1000); requestAnimationFrame(loop); };
+      requestAnimationFrame(loop);
+    };
+    img.src = canvas.dataset.flag;
   });
 
   /* ---------- Modals ---------- */

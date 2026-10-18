@@ -181,38 +181,34 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .wl-note { text-align: center; color: var(--muted); font-size: 13px; margin: 14px 0 0; }
 .wl-note b { color: var(--orange-2); font-family: var(--digit); font-size: 16px; font-weight: 500; }
 
-.stat svg, .benefits svg, .side-stats svg {
+.benefits svg, .side-stats svg {
   width: 34px; height: 34px; fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round;
 }
 
 /* Brand film */
 .film { padding: 20px 0 10px; }
 .film__frame {
-  position: relative; height: 460px; border-radius: var(--radius); overflow: hidden;
-  display: grid; grid-template-columns: 1fr 1fr;
+  position: relative; aspect-ratio: 3 / 1; border-radius: var(--radius); overflow: hidden;
   border: 1px solid var(--line);
 }
-.film__face, .film__ride { background-size: cover; background-position: center; transition: transform 1.2s ease; }
-.film__face { background-position: center 20%; filter: brightness(.75); }
-.film__frame:hover .film__face, .film__frame:hover .film__ride { transform: scale(1.04); }
+.film__face {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center 30%; filter: brightness(.75);
+  transition: transform 1.2s ease;
+}
+.film__frame:hover .film__face { transform: scale(1.04); }
 .film__shade {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(8,16,29,.25) 0%, rgba(8,16,29,.2) 40%, rgba(8,16,29,.0) 60%),
-    linear-gradient(180deg, transparent 25%, rgba(8,16,29,.85) 100%);
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(8,16,29,.35), transparent 80%),
+    linear-gradient(180deg, transparent 35%, rgba(8,16,29,.85) 100%);
 }
-.film__face::after { content: ""; }
 .film__content {
-  position: absolute; left: 0; width: 55%; top: 0; bottom: 0;
+  position: absolute; inset: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center;
   padding: 20px;
 }
 .film__content p { margin: 0; letter-spacing: .1em; }
-.film__quote {
-  position: absolute; right: 7%; bottom: 13%; text-align: right; font-size: 20px; line-height: 1.6;
-  display: flex; flex-direction: column; transform: rotate(-4deg);
-}
-.film__quote span:last-child { font-size: 16px; opacity: .85; }
 
 .play {
   width: 74px; height: 74px; border-radius: 50%;
@@ -230,17 +226,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .play--sm { width: 52px; height: 52px; }
 .play--sm svg { width: 20px; height: 20px; }
 @keyframes ripple { from { transform: scale(1); opacity: .8; } to { transform: scale(1.8); opacity: 0; } }
-
-/* Stats */
-.stats { padding: 26px 0 40px; }
-.stats__row {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-  border-top: 1px solid var(--line); padding-top: 30px;
-}
-.stat { display: flex; align-items: center; justify-content: center; gap: 14px; }
-.stat b { font-family: var(--digit); font-size: 28px; font-weight: 500; display: block; line-height: 1.1; }
-.stat small { font-size: 11px; color: var(--muted); }
-.stat__txt { font-size: 14px; }
 
 /* Footer */
 .footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--muted); font-size: 12px; }
@@ -615,6 +600,55 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 /* ==========================================================
+   SECTION 3 · 100,000+ STUDENTS
+   ========================================================== */
+.s3 {
+  --h: max(520px, min(56.25vw, 100vh));
+  position: relative; isolation: isolate; overflow: hidden;
+  height: var(--h); margin-top: 40px; background: #0b1322;
+}
+/* the wall image is 1400×900 and tiles seamlessly; three copies cover any width, slide one copy */
+.s3__wall { position: absolute; inset: 0; z-index: -3; }
+.s3__track { display: flex; height: 100%; width: max-content; animation: s3slide 75s linear infinite; will-change: transform; }
+.s3__track img { flex: none; height: 100%; width: auto; max-width: none; }
+@keyframes s3slide { to { transform: translateX(-33.3333%); } }
+.s3__shade {
+  position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(ellipse 40% 36% at 50% 53%, rgba(8,14,28,.85), rgba(8,14,28,.55) 55%, transparent 100%),
+    linear-gradient(180deg, var(--bg) 0%, transparent 14%, transparent 78%, var(--bg) 100%),
+    linear-gradient(rgba(10,18,34,.3), rgba(10,18,34,.3));
+}
+.s3__flag {
+  position: absolute; left: 0; top: 0; z-index: -1;
+  width: calc(var(--h) * 1180 / 900); height: calc(var(--h) * 330 / 900);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 12%);
+}
+
+.s3__text {
+  position: absolute; inset: 0; padding-top: 3%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  font-family: "Source Serif 4", "Noto Serif SC", serif; color: #fff;
+  text-shadow: 0 6px 30px rgba(0,0,0,.6);
+}
+.s3__text p { margin: 0; }
+.s3__num {
+  position: relative; font-weight: 800; line-height: 1; letter-spacing: -.01em;
+  font-size: min(var(--h) * .235, 16.5vw);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+/* the hidden final value fixes the width, so the count-up doesn't jiggle the layout */
+.s3__ghost { visibility: hidden; }
+.s3__live { position: absolute; top: 0; right: 0; white-space: nowrap; }
+.s3__word { font-weight: 800; line-height: 1; font-size: min(var(--h) * .19, 14vw); margin-top: -.02em; }
+.s3__sub { font-weight: 400; font-size: min(var(--h) * .058, 6vw); margin-top: .55em !important; color: #e8ecf3; }
+
+@media (max-width: 900px) {
+  .s3 { --h: 560px; }
+}
+
+/* ==========================================================
    Responsive
    ========================================================== */
 @media (max-width: 1024px) {
@@ -655,11 +689,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .anniv--big { font-size: 20px; }
   .order-title__en { font-size: 11px; letter-spacing: .12em; }
   .card__img { aspect-ratio: 16/9; }
-  .film__frame { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; height: 560px; }
-  .film__content { width: 100%; bottom: 50%; }
-  .film__quote { bottom: 8%; }
-  .stats__row { grid-template-columns: repeat(2, 1fr); row-gap: 24px; }
-  .stat { justify-content: flex-start; }
+  .film__frame { aspect-ratio: auto; height: 340px; }
 
   .hero--order { padding-top: 90px; padding-bottom: 80px; }
   .side-stats { grid-template-columns: repeat(2, 1fr); text-align: left; }
