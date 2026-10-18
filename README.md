@@ -27,7 +27,7 @@
 
 ## 上线前要替换的内容
 
-- `assets/*.jpg`：这些图是从设计稿里截出来、去掉文字的低分辨率占位图。正式上线请换成原始高清图（文件名保持不变即可）。
+- `assets/hero-sunset.jpg` 是首屏（Section 1）的高清背景图。其他 `assets/*.jpg` 仍是从设计稿截出来、去掉文字的低分辨率占位图，正式上线请换成原始高清图（文件名保持不变即可）。
 - 倒数时间：在 HTML 里搜索 `data-countdown`。
 - 表单目前只是 Demo（号码只存在浏览器的 localStorage）。正式版可在 `js/main.js` 里标注 `Demo only` 的地方接入 Google Sheet、Formspree 或你的 CRM。
 - 品牌影片：把 `#filmModal` 里的 `.film-teaser` 换成 YouTube / Vimeo 的 iframe。

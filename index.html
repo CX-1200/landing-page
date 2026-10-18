@@ -9,7 +9,7 @@
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Mrs+Saint+Delafield&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Oswald:wght@400;500&family=Permanent+Marker&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Cinzel:wght@600;700&family=Mrs+Saint+Delafield&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Oswald:wght@400;500&family=Permanent+Marker&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="page-landing">
@@ -32,42 +32,52 @@
   </header>
 
   <main id="top">
-    <!-- ============ HERO ============ -->
-    <section class="hero hero--landing">
-      <div class="hero__bg" style="background-image:url('assets/hero.jpg')" data-parallax></div>
-      <div class="hero__shade"></div>
+    <!-- ============ SECTION 1 · HERO ============ -->
+    <section class="s1" aria-labelledby="s1Title">
+      <div class="s1__bg" style="background-image:url('assets/hero-sunset.jpg')" data-parallax></div>
+      <div class="s1__shade"></div>
       <canvas class="hero__spray" data-spray></canvas>
 
-      <div class="container hero__grid">
-        <div class="hero__left reveal">
-          <h1 class="brush-cn">
-            <span class="brush-line">学海无涯</span>
-            <span class="brush-line brush-line--2">终生学习</span>
+      <div class="container s1__top">
+        <!-- left: 14th anniversary + 11.11 -->
+        <div class="s1__brand reveal">
+          <p class="s1__anniv"><b>14</b><span><sup>TH</sup>ANNIVERSARY</span></p>
+          <h1 class="s1__1111" id="s1Title">
+            <svg class="s1__wave s1__wave--l" viewBox="0 0 120 80" aria-hidden="true"><path d="M112 70C70 78 18 66 10 38 4 16 26 4 44 12c14 6 14 26 0 26-9 0-10-10-4-12"/><path d="M96 58C64 60 34 52 30 34"/></svg>
+            <span class="s1__num" data-text="11.11">11.11</span>
+            <svg class="s1__wave s1__wave--r" viewBox="0 0 120 80" aria-hidden="true"><path d="M8 70c42 8 94-4 102-32 6-22-16-34-34-26-14 6-14 26 0 26 9 0 10-10 4-12"/><path d="M24 58c32 2 62-6 66-24"/></svg>
           </h1>
-          <p class="hand-caps hero__tag">LIFELONG LEARNING</p>
-          <ul class="hero__facts">
-            <li>14 YEARS IN EDUCATION</li>
-            <li>100,000+ STUDENTS REACHED</li>
-          </ul>
+          <p class="s1__motto">学海无涯，终生学习</p>
         </div>
 
-        <div class="hero__right reveal reveal--delay">
-          <p class="anniv"><b>14</b><sup>TH</sup> ANNIVERSARY</p>
-          <div class="big-1111" aria-label="11.11">11.11</div>
-          <div class="brush-cn brush-cn--sm">大优惠</div>
-          <p class="hand-caps hero__mission">ONE MISSION. THOUSANDS OF DREAMS.</p>
+        <!-- right: headline + copy -->
+        <div class="s1__copy reveal reveal--delay">
+          <h2 class="s1__headline">
+            <span class="s1__h1">一年一次。</span>
+            <span class="s1__h2">年度大优惠。</span>
+          </h2>
+          <span class="s1__rule" aria-hidden="true"></span>
+          <p class="s1__sub">Top Scholar 年度最大活动。<br>为孩子的下一学年，提前做好准备。</p>
         </div>
       </div>
 
-      <div class="container hero__count reveal">
-        <div class="countdown-card">
-          <p class="countdown-card__title">11.11 正式开启</p>
-          <div class="countdown" data-countdown="2026-11-11T00:00:00+08:00" data-done="🔥 11.11 已正式开卖！">
-            <div class="cd"><span data-unit="d">00</span><small>DAYS</small></div><i>:</i>
-            <div class="cd"><span data-unit="h">00</span><small>HOURS</small></div><i>:</i>
-            <div class="cd"><span data-unit="m">00</span><small>MINUTES</small></div><i>:</i>
-            <div class="cd"><span data-unit="s">00</span><small>SECONDS</small></div>
+      <!-- bottom: countdown + CTA -->
+      <div class="container s1__bottom reveal">
+        <div class="s1__count">
+          <p class="s1__count-title">距离正式开卖还有</p>
+          <div class="s1__tiles" data-countdown="2026-11-11T00:00:00+08:00" data-done="🔥 11.11 已正式开卖！">
+            <div class="s1__tile"><span data-unit="d">00</span><small>DAYS</small></div>
+            <div class="s1__tile"><span data-unit="h">00</span><small>HOURS</small></div>
+            <div class="s1__tile"><span data-unit="m">00</span><small>MINUTES</small></div>
+            <div class="s1__tile"><span data-unit="s">00</span><small>SECONDS</small></div>
           </div>
+        </div>
+        <div class="s1__cta">
+          <a href="#waitlist" class="s1__btn" data-focus="#wlPhone">
+            加入 Priority List，抢先购买
+            <span class="s1__btn-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+          <p class="s1__note">（正式开卖前，优先收到活动消息与配套公布。）</p>
         </div>
       </div>
     </section>

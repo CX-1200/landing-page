@@ -49,7 +49,7 @@
         const v = pad(vals[k]);
         if (node.textContent !== v) {
           node.textContent = v;
-          if (!reduceMotion && node.closest('.cd')) {
+          if (!reduceMotion && node.closest('.cd, .s1__tile')) {
             node.classList.remove('tick');
             void node.offsetWidth; // restart animation
             node.classList.add('tick');
@@ -62,6 +62,11 @@
     tickCountdowns();
     setInterval(tickCountdowns, 1000);
   }
+
+  /* ---------- CTA: scroll to the form, then focus its input ---------- */
+  $$('[data-focus]').forEach((a) => a.addEventListener('click', () => {
+    setTimeout(() => $(a.dataset.focus)?.focus({ preventScroll: true }), 700);
+  }));
 
   /* ---------- Count-up numbers ---------- */
   const countUp = (el) => {
